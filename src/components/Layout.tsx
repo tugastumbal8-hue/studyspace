@@ -29,7 +29,7 @@ function Brand() {
       <span className="brand-mark" aria-hidden="true">
         <Icon name="check" size={20} />
       </span>
-      StudySpace
+      <span className="brand-text">StudySpace</span>
     </div>
   )
 }
@@ -45,7 +45,7 @@ function ThemeButton({ withLabel }: { withLabel?: boolean }) {
       onClick={() => themeStore.set(dark ? 'light' : 'dark')}
     >
       <Icon name={dark ? 'sun' : 'moon'} />
-      {withLabel && (dark ? 'Tema terang' : 'Tema gelap')}
+      {withLabel && <span className="nav-label">{dark ? 'Tema terang' : 'Tema gelap'}</span>}
     </button>
   )
 }
@@ -86,7 +86,7 @@ export default function Layout() {
             {[...primary, ...secondary].map((item) => (
               <NavLink key={item.to} to={item.to} end={item.to === '/'} className="nav-link">
                 <Icon name={item.icon} />
-                {item.label}
+                <span className="nav-label">{item.label}</span>
               </NavLink>
             ))}
           </nav>
@@ -142,7 +142,7 @@ export default function Layout() {
               onClick={(e) => e.currentTarget.closest<HTMLElement>('[popover]')?.hidePopover()}
             >
               <Icon name={item.icon} />
-              {item.label}
+              <span className="nav-label">{item.label}</span>
             </NavLink>
           ))}
         </nav>

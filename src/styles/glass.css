@@ -1,132 +1,107 @@
-/* Liquid glass lebih mengilap + palet minimalis (netral + satu aksen).
-   Di-import paling akhir, setelah app.css. */
+/* ============================================================
+   iOS LIQUID GLASS ENGINE
+   * Highlight tepi atas: inset 0 1px 1px rgb(255 255 255 / 0.5)
+   * Sheen: linear-gradient(155deg, rgb(255 255 255 / 0.18), transparent 60%)
+   * Border 1px putih transparan (0.15-0.2 di mode gelap)
+   * Backdrop-filter: blur(24px) saturate(180%)
+   ============================================================ */
 
 :root {
-  --bg: light-dark(#e9edf5, #080a12);
-  --ink: light-dark(#10131f, #f1f3fb);
-  --ink-soft: light-dark(#3d4358, #bcc2d8);
-  --ink-mute: light-dark(#585f75, #8f97b2);
-
-  --primary: light-dark(#2f4bd0, #9aaaff);
-  --accent: var(--primary);
-  --ok: var(--ink-soft);
-  --warn: var(--ink-soft);
-
-  --blob-1: light-dark(#8399ff, #1f2b6b);
-  --blob-2: light-dark(#b9c6ff, #141a3d);
-  --blob-3: light-dark(#d9e0ff, #0d1126);
-
-  --glass: color-mix(in srgb, light-dark(#ffffff, #1b2140) 38%, transparent);
-  --glass-strong: color-mix(in srgb, light-dark(#ffffff, #141934) 78%, transparent);
-  --glass-line: light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.2));
-  --gloss: linear-gradient(
-    155deg,
-    light-dark(rgb(255 255 255 / 0.75), rgb(255 255 255 / 0.16)) 0%,
-    light-dark(rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.03)) 38%,
-    transparent 62%
-  );
-  --shadow:
-    inset 0 1px 1px light-dark(rgb(255 255 255 / 1), rgb(255 255 255 / 0.28)),
-    inset 0 -1px 1px light-dark(rgb(255 255 255 / 0.6), rgb(255 255 255 / 0.06)),
-    inset 0 0 28px light-dark(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.04)),
-    0 1px 2px light-dark(rgb(30 40 90 / 0.08), rgb(0 0 0 / 0.3)),
-    0 18px 40px -16px light-dark(rgb(30 40 100 / 0.3), rgb(0 0 0 / 0.7));
+  --gloss: var(--glass-sheen);
 }
 
 .glass,
-.glass-strong {
-  background: var(--gloss), var(--glass);
-  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
-  backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
+.glass-strong,
+.card,
+.stat-card,
+.hero-card,
+.hero-flow-info,
+.sidebar,
+.topbar,
+.bottomnav,
+.dialog-card,
+.more-menu {
+  background: var(--glass-sheen), var(--glass);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--shadow);
 }
 
-.glass-strong {
-  background: var(--gloss), var(--glass-strong);
+.glass-strong,
+.hero-card,
+.sidebar,
+.topbar,
+.bottomnav,
+.dialog-card,
+.more-menu {
+  background: var(--glass-sheen), var(--glass-strong);
 }
 
-.dialog-card.glass-strong {
-  background: var(--gloss), color-mix(in srgb, var(--solid) 92%, transparent);
+.stat-card {
+  box-shadow: var(--shadow-sm);
 }
 
+/* Fallback solid background jika backdrop-filter tidak didukung */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass,
-  .glass-strong {
-    background: var(--gloss), var(--solid);
+  .glass-strong,
+  .card,
+  .stat-card,
+  .hero-card,
+  .hero-flow-info,
+  .sidebar,
+  .topbar,
+  .bottomnav,
+  .dialog-card,
+  .more-menu {
+    background: var(--solid);
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
   .glass,
-  .glass-strong {
+  .glass-strong,
+  .card,
+  .stat-card,
+  .hero-card,
+  .hero-flow-info,
+  .sidebar,
+  .topbar,
+  .bottomnav,
+  .dialog-card,
+  .more-menu {
     background: var(--solid);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 }
 
-/* Tombol */
-.btn {
-  background: var(--gloss), var(--tint);
-  box-shadow: inset 0 1px 0 var(--shine);
-}
-
-.btn-ghost {
-  background: transparent;
-  box-shadow: none;
-}
-
-.btn-danger {
-  background: color-mix(in srgb, var(--danger) 16%, transparent);
-  box-shadow: none;
-}
-
-.btn-primary {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 78%, white), var(--primary));
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.5),
-    0 8px 18px -8px color-mix(in srgb, var(--primary) 80%, transparent);
-}
-
-.btn-primary:hover {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 70%, white), var(--primary));
-}
-
-/* Input seperti kaca cekung */
-input[type='text'],
-input[type='search'],
-input[type='number'],
-input[type='date'],
-input[type='time'],
-input[type='datetime-local'],
-select,
-textarea {
-  background: color-mix(in srgb, light-dark(#ffffff, #0b0f1f) 45%, transparent);
-  box-shadow: inset 0 1px 2px light-dark(rgb(20 30 80 / 0.08), rgb(0 0 0 / 0.35));
-}
-
-.segmented {
-  background: var(--gloss), var(--tint);
-}
-
-.segmented input:checked + span {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 78%, white), var(--primary));
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
-}
-
-/* Navigasi */
-.brand-mark {
-  background: linear-gradient(160deg, #5f78f0, #2a43c2);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.5),
-    0 6px 14px -6px rgb(47 75 208 / 0.6);
-}
-
+/* Nav aktif di sidebar: lensa kaca halus dengan aksen biru */
 .nav-link[aria-current='page'] {
-  background: var(--gloss), color-mix(in srgb, var(--primary) 15%, transparent);
-  box-shadow: inset 0 1px 0 var(--shine);
+  background:
+    linear-gradient(155deg, light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.15)) 0%, transparent 60%),
+    light-dark(rgba(29, 78, 216, 0.08), rgba(59, 130, 246, 0.15));
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+  box-shadow:
+    inset 0 1px 1px light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4)),
+    0 2px 8px light-dark(rgba(15, 23, 42, 0.04), rgba(0, 0, 0, 0.2));
+  color: var(--primary);
+  font-weight: 600;
 }
 
-/* Warna dikurangi: hanya "terlambat" dan prioritas tinggi yang berwarna */
+/* Brand mark netral + aksen biru */
+.brand-mark {
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: 0 2px 10px -2px var(--primary-glow);
+}
+
+/* Status dan Prioritas: Merah HANYA untuk terlambat dan prioritas tinggi. Selain itu netral */
+.prio-high {
+  --p: var(--danger);
+}
+
 .prio-mid {
   --p: var(--ink-soft);
 }
@@ -136,15 +111,15 @@ textarea {
 }
 
 .due-soon {
-  color: var(--ink);
+  color: var(--primary);
 }
 
 .due-done {
-  color: var(--ink-mute);
+  color: var(--ink-soft);
 }
 
-.stat[data-tone='ok'] .stat-n {
-  color: inherit;
+.due-late {
+  color: var(--danger);
 }
 
 .bar > i {
@@ -157,11 +132,12 @@ textarea {
 }
 
 .slot:hover {
-  background: color-mix(in srgb, var(--c) 15%, transparent);
+  background: color-mix(in srgb, var(--c) 14%, transparent);
 }
 
 .slot.is-now {
-  background: color-mix(in srgb, var(--c) 22%, transparent);
+  background: color-mix(in srgb, var(--c) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 35%, transparent);
 }
 
 .course-card {
@@ -169,38 +145,36 @@ textarea {
 }
 
 /* ============================================================
-   Mobile: header + bottom nav kaca melayang (gaya iOS "liquid glass")
-   Konten menggulir di belakangnya dan tembus lewat blur.
+   Mobile floating header & bottom nav (Pill Melayang + Lensa Kaca)
    ============================================================ */
-@media (max-width: 860px) {
+@media (max-width: 767px) {
   .topbar.glass-strong,
   .bottomnav.glass-strong {
-    background: var(--gloss), color-mix(in srgb, light-dark(#ffffff, #141934) 38%, transparent);
-    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
-    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
-    box-shadow: var(--shadow);
+    background: var(--glass-sheen), var(--glass-strong);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: var(--shadow-lg);
   }
 
-  /* Header: pil kecil yang melayang, bukan bar penuh */
   .topbar {
     top: calc(8px + env(safe-area-inset-top));
     margin: calc(8px + env(safe-area-inset-top)) 12px 0;
-    padding: 6px 8px 6px 16px;
+    padding: 6px 12px 6px 16px;
     border-width: 1px;
-    border-radius: 999px;
+    border-radius: var(--r-full);
   }
 
   .main {
-    padding-top: var(--s-4);
+    padding-top: var(--s-3);
   }
 
-  /* Bottom nav */
   .bottomnav {
     position: fixed;
+    inset: auto 12px calc(12px + env(safe-area-inset-bottom));
     display: flex;
     gap: 0;
-    padding: 6px;
-    border-radius: 999px;
+    padding: 4px;
+    border-radius: var(--r-full);
     isolation: isolate;
   }
 
@@ -209,8 +183,8 @@ textarea {
     z-index: 1;
     flex: 1 1 0;
     min-width: 0;
-    border-radius: 999px;
-    transition: color 0.25s var(--ease);
+    border-radius: var(--r-full);
+    transition: color 0.2s var(--ease);
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -221,76 +195,31 @@ textarea {
     color: var(--primary);
   }
 
-  /* Lensa kaca yang geser ke tab aktif */
+  /* Lensa kaca di tab aktif: optik liquid glass (bukan blok berwarna solid) */
   .bn-lens {
     position: absolute;
     z-index: 0;
-    top: 6px;
-    bottom: 6px;
-    left: 6px;
-    width: calc((100% - 12px) / 5);
-    border-radius: 999px;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / 5);
+    border-radius: var(--r-full);
     pointer-events: none;
-    transform: translateX(calc(var(--i, 0) * 100%)) scale(1);
-    transition:
-      transform 0.5s cubic-bezier(0.34, 1.45, 0.5, 1),
-      box-shadow 0.3s var(--ease);
+    transform: translateX(calc(var(--i, 0) * 100%));
+    transition: transform 0.35s var(--ease);
     background:
-      radial-gradient(120% 90% at 30% 10%, light-dark(rgb(255 255 255 / 0.85), rgb(255 255 255 / 0.22)), transparent 60%),
-      color-mix(in srgb, light-dark(#ffffff, #ffffff) 14%, transparent);
-    -webkit-backdrop-filter: blur(6px) saturate(220%) brightness(1.12);
-    backdrop-filter: blur(6px) saturate(220%) brightness(1.12);
+      linear-gradient(155deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.12) 100%),
+      light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.14));
+    border: 1px solid light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.25));
     box-shadow:
-      inset 0 1px 1px light-dark(rgb(255 255 255 / 1), rgb(255 255 255 / 0.4)),
-      inset 0 -1px 2px light-dark(rgb(255 255 255 / 0.6), rgb(255 255 255 / 0.1)),
-      0 6px 16px -6px light-dark(rgb(30 40 100 / 0.35), rgb(0 0 0 / 0.6));
-  }
-
-  /* Tepi berwarna tipis (efek bias cahaya) */
-  .bn-lens::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 1.5px;
-    border-radius: inherit;
-    background: conic-gradient(
-      from 210deg,
-      rgb(255 255 255 / 0.9),
-      rgb(120 170 255 / 0.55),
-      rgb(255 255 255 / 0.1) 35%,
-      rgb(255 140 190 / 0.5) 60%,
-      rgb(255 255 255 / 0.1) 80%,
-      rgb(255 255 255 / 0.9)
-    );
-        -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    opacity: 0.55;
-    transition: opacity 0.3s var(--ease);
-  }
-
-  /* Saat ditekan: lensa membesar seperti tetesan kaca */
-  .bottomnav[data-pressed] .bn-lens {
-    transform: translateX(calc(var(--i, 0) * 100%)) scale(1.14, 1.2);
-  }
-
-  .bottomnav[data-pressed] .bn-lens::after {
-    opacity: 1;
+      inset 0 1px 1px rgba(255, 255, 255, 0.7),
+      0 4px 12px light-dark(rgba(15, 23, 42, 0.08), rgba(0, 0, 0, 0.35));
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bn-lens {
-    transition: none;
-  }
-}
-
-@media (min-width: 861px) {
+@media (min-width: 768px) {
   .bn-lens {
     display: none;
   }

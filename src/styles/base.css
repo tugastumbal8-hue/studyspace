@@ -14,28 +14,48 @@ body {
   min-height: 100dvh;
   background: var(--bg);
   color: var(--ink);
-  font: 400 15px/1.55 var(--font-body);
+  font: 400 15px/1.6 var(--font-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
 }
 
+/* Heading: font-weight maksimal 700, letter-spacing tidak lebih rapat dari -0.01em */
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   text-wrap: balance;
+  color: var(--ink);
 }
 
 p {
   margin: 0;
   text-wrap: pretty;
+  font-size: 15px;
 }
 
+/* Link: Netral + SATU aksen (biru), tanpa garis bawah default */
 a {
   color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--duration) var(--ease), opacity var(--duration) var(--ease);
+}
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
   text-underline-offset: 3px;
 }
 
@@ -66,21 +86,25 @@ textarea {
 
 .skip {
   position: fixed;
-  top: 8px;
-  left: 8px;
+  top: 12px;
+  left: 12px;
   z-index: 100;
-  padding: 10px 14px;
+  padding: 10px 16px;
   border-radius: var(--r-sm);
   background: var(--primary);
   color: var(--on-primary);
   text-decoration: none;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
   transform: translateY(-200%);
+  transition: transform 0.2s var(--ease);
 }
 
 .skip:focus-visible {
   transform: none;
 }
 
+/* Background dengan glow aksen tipis */
 .bg {
   position: fixed;
   inset: 0;
@@ -92,40 +116,50 @@ textarea {
 .bg::before {
   content: '';
   position: absolute;
-  inset: -25%;
+  inset: -20%;
   background:
-    radial-gradient(40% 40% at 20% 25%, var(--blob-1), transparent 70%),
-    radial-gradient(36% 36% at 78% 18%, var(--blob-2), transparent 70%),
-    radial-gradient(44% 44% at 62% 82%, var(--blob-3), transparent 72%);
-  opacity: 0.8;
-  animation: drift 52s ease-in-out infinite alternate;
+    radial-gradient(45% 45% at 20% 25%, var(--blob-1), transparent 70%),
+    radial-gradient(40% 40% at 80% 20%, var(--blob-2), transparent 70%),
+    radial-gradient(50% 50% at 50% 80%, var(--blob-3), transparent 70%);
+  filter: blur(120px);
+  opacity: light-dark(0.7, 0.5);
+  animation: drift 60s ease-in-out infinite alternate;
   will-change: transform;
 }
 
 @keyframes drift {
-  to {
-    transform: translate3d(4%, 3%, 0) rotate(8deg) scale(1.08);
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(2%, 3%, 0);
   }
 }
 
-/* Liquid glass */
+/* Kaca: iOS liquid glass (sheen + highlight + blur + saturate) */
 .glass,
 .glass-strong {
   border: 1px solid var(--glass-line);
   box-shadow: var(--shadow);
-  -webkit-backdrop-filter: blur(18px) saturate(165%);
-  backdrop-filter: blur(18px) saturate(165%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  transition:
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
 }
 
 .glass {
-  background: var(--glass);
-  border-radius: var(--r);
+  background: var(--glass-sheen), var(--glass);
+  border-radius: var(--r-lg);
 }
 
 .glass-strong {
-  background: var(--glass-strong);
+  background: var(--glass-sheen), var(--glass-strong);
+  border-radius: var(--r-lg);
 }
 
+/* Fallback solid background jika backdrop-filter tidak didukung */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass,
   .glass-strong {
@@ -156,7 +190,7 @@ textarea {
   }
 }
 
-/* Buttons */
+/* Tombol (Touch target minimal 44px, label jelas) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -165,48 +199,57 @@ textarea {
   min-height: 44px;
   padding: 0 var(--s-4);
   border: 1px solid var(--hairline);
-  border-radius: 999px;
-  background: var(--tint);
+  border-radius: var(--r-full);
+  background: var(--glass);
+  color: var(--ink);
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color 0.15s,
-    transform 0.15s var(--ease),
-    border-color 0.15s;
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
 }
 
 .btn:hover {
-  background: color-mix(in srgb, var(--ink) 11%, transparent);
+  background: color-mix(in srgb, var(--ink) 8%, var(--glass));
+  text-decoration: none;
 }
 
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 .btn-primary {
   border-color: transparent;
   background: var(--primary);
   color: var(--on-primary);
+  box-shadow: 0 4px 14px -3px var(--primary-glow);
 }
 
 .btn-primary:hover {
-  background: color-mix(in srgb, var(--primary) 88%, var(--ink));
+  background: var(--primary-hover);
+  color: var(--on-primary);
 }
 
 .btn-danger {
   border-color: transparent;
-  background: color-mix(in srgb, var(--danger) 16%, transparent);
+  background: var(--danger-subtle);
   color: var(--danger);
 }
 
 .btn-danger:hover {
-  background: color-mix(in srgb, var(--danger) 26%, transparent);
+  background: color-mix(in srgb, var(--danger) 20%, transparent);
 }
 
 .btn-ghost {
   border-color: transparent;
   background: transparent;
+}
+
+.btn-ghost:hover {
+  background: var(--tint);
 }
 
 .icon-btn {
@@ -220,7 +263,9 @@ textarea {
   background: transparent;
   color: var(--ink-soft);
   cursor: pointer;
-  transition: background-color 0.15s;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
 }
 
 .icon-btn:hover {
@@ -228,7 +273,7 @@ textarea {
   color: var(--ink);
 }
 
-/* Forms */
+/* Formulir (Ukuran teks minimum 13px) */
 .form {
   display: grid;
   gap: var(--s-4);
@@ -264,10 +309,11 @@ textarea {
   width: 100%;
   min-height: 44px;
   padding: 10px 14px;
+  font-size: 14px;
   border: 1px solid var(--hairline);
-  border-radius: 14px;
-  background: color-mix(in srgb, light-dark(#ffffff, #0b0f1f) 55%, transparent);
-  transition: border-color 0.15s;
+  border-radius: var(--r-sm);
+  background: var(--solid);
+  transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
 }
 
 textarea {
@@ -278,7 +324,15 @@ textarea {
 input:hover,
 select:hover,
 textarea:hover {
-  border-color: color-mix(in srgb, var(--ink) 26%, transparent);
+  border-color: var(--ink-mute);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-subtle);
 }
 
 input::placeholder,
@@ -315,22 +369,21 @@ fieldset {
   border-radius: 50%;
   background: var(--c);
   cursor: pointer;
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12);
-  transition: transform 0.15s var(--ease);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: outline var(--duration) var(--ease);
 }
 
 .swatches input:checked {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
-  transform: scale(1.08);
 }
 
 .segmented {
   display: inline-flex;
   padding: 4px;
   border: 1px solid var(--hairline);
-  border-radius: 999px;
-  background: var(--tint);
+  border-radius: var(--r-full);
+  background: var(--glass);
 }
 
 .segmented label {
@@ -347,14 +400,15 @@ fieldset {
 .segmented span {
   display: grid;
   place-items: center;
-  min-height: 40px;
+  min-height: 38px;
   padding: 0 var(--s-4);
-  border-radius: 999px;
+  border-radius: var(--r-full);
+  font-size: 14px;
   font-weight: 600;
   color: var(--ink-soft);
   transition:
-    background-color 0.2s,
-    color 0.2s;
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
 }
 
 .segmented input:checked + span {
@@ -367,7 +421,7 @@ fieldset {
   outline-offset: 2px;
 }
 
-/* Dialog */
+/* Dialog Modal */
 dialog {
   width: calc(100% - 24px);
   max-width: 520px;
@@ -379,17 +433,17 @@ dialog {
 }
 
 dialog.wide {
-  max-width: 680px;
+  max-width: 640px;
 }
 
 dialog[open] {
-  animation: dialog-in 0.26s var(--ease);
+  animation: dialog-in 0.25s var(--ease);
 }
 
 dialog::backdrop {
-  background: color-mix(in srgb, #070a18 52%, transparent);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, #07090e 65%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 dialog[open]::backdrop {
@@ -399,7 +453,7 @@ dialog[open]::backdrop {
 @keyframes dialog-in {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.98);
+    transform: translateY(12px) scale(0.98);
   }
 }
 
@@ -410,13 +464,15 @@ dialog[open]::backdrop {
 }
 
 .dialog-card {
-  background: color-mix(in srgb, var(--solid) 93%, transparent);
   display: grid;
   gap: var(--s-4);
   max-height: calc(100dvh - 32px);
-  padding: var(--s-5);
+  padding: 24px;
   overflow-y: auto;
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--shadow-lg);
+  background: var(--glass-strong);
 }
 
 .dialog-head {
@@ -424,10 +480,11 @@ dialog[open]::backdrop {
   align-items: center;
   justify-content: space-between;
   gap: var(--s-3);
+  padding-bottom: 4px;
 }
 
 .dialog-head h2 {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .dialog-actions {
@@ -450,7 +507,7 @@ dialog[open]::backdrop {
   }
 
   .dialog-card {
-    border-radius: var(--r-lg) var(--r-lg) 0 0;
-    padding-bottom: calc(var(--s-5) + env(safe-area-inset-bottom));
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
   }
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { db, MEETING_COUNT, PRIORITY_LABEL, type Priority, type Task } from '../lib/db'
+import { db, PRIORITY_LABEL, type Priority, type Task } from '../lib/db'
 import { byDeadline, isLate } from '../lib/dates'
 import { useNow, usePageTitle } from '../lib/hooks'
 import { Empty, PageHead } from '../components/Bits'
@@ -23,7 +23,6 @@ export default function Tasks() {
   const [status, setStatus] = useState<Status>('aktif')
   const [courseId, setCourseId] = useState(0)
   const [priority, setPriority] = useState<'all' | Priority>('all')
-  const [meeting, setMeeting] = useState(0)
   const [sort, setSort] = useState<Sort>('deadline')
   const [adding, setAdding] = useState(false)
   const [editing, setEditing] = useState<Task | null>(null)
@@ -39,7 +38,6 @@ export default function Tasks() {
       if (status === 'terlambat' && !isLate(t, now)) return false
       if (courseId && t.courseId !== courseId) return false
       if (priority !== 'all' && t.priority !== priority) return false
-      if (meeting && t.meeting !== meeting) return false
       return true
     })
     .sort((a, b) => {
@@ -48,7 +46,7 @@ export default function Tasks() {
       return byDeadline(a, b)
     })
 
-  const filtering = status !== 'aktif' || courseId !== 0 || priority !== 'all' || meeting !== 0
+  const filtering = status !== 'aktif' || courseId !== 0 || priority !== 'all'
 
   return (
     <div className="page">
@@ -91,17 +89,6 @@ export default function Tasks() {
             {(Object.keys(PRIORITY_LABEL) as Priority[]).map((p) => (
               <option key={p} value={p}>
                 {PRIORITY_LABEL[p]}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="f-meeting">Pertemuan</label>
-          <select id="f-meeting" value={meeting} onChange={(e) => setMeeting(Number(e.target.value))}>
-            <option value={0}>Semua</option>
-            {Array.from({ length: MEETING_COUNT }, (_, i) => i + 1).map((n) => (
-              <option key={n} value={n}>
-                Pertemuan {n}
               </option>
             ))}
           </select>
