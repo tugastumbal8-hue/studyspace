@@ -6,6 +6,14 @@ import { usePageTitle } from '../lib/hooks'
 import { useStore } from '../lib/localStore'
 import { semesterStore } from '../lib/semester'
 import { themeStore, type Theme } from '../lib/theme'
+import {
+  checkAndNotifyTasks,
+  getNotificationPermission,
+  isNotificationSupported,
+  notificationStore,
+  requestNotificationPermission,
+  sendTestNotification,
+} from '../lib/notifications'
 import { PageHead } from '../components/Bits'
 import { ConfirmDialog } from '../components/Dialog'
 import { Icon } from '../components/Icon'
@@ -22,10 +30,50 @@ export default function Settings() {
   usePageTitle('Pengaturan')
   const theme = useStore(themeStore)
   const sem = useStore(semesterStore)
+  const notif = useStore(notificationStore)
+  const notifSupported = isNotificationSupported()
   const fileRef = useRef<HTMLInputElement>(null)
   const [pending, setPending] = useState<Pending>(null)
   const [status, setStatus] = useState<{ text: string; error?: boolean }>({ text: '' })
   const total = useLiveQuery(async () => (await db.courses.count()) + (await db.tasks.count()) + (await db.notes.count()))
+
+  async function toggleNotif() {
+    if (!notifSupported) {
+      setStatus({ text: 'Peramban tidak mendukung notifikasi web.', error: true })
+      return
+    }
+
+    if (!notif.enabled) {
+      const permission = getNotificationPermission()
+      if (permission === 'denied') {
+        setStatus({
+          text: 'Izin notifikasi diblokir di peramban. Buka ikon gembok di bilah alamat peramban untuk mengizinkan.',
+          error: true,
+        })
+        return
+      }
+      const granted = await requestNotificationPermission()
+      if (granted) {
+        notificationStore.set({ ...notif, enabled: true })
+        setStatus({ text: 'Pengingat tugas aktif (1–2 kali sehari).' })
+        void checkAndNotifyTasks()
+      } else {
+        setStatus({ text: 'Izin notifikasi tidak diberikan.', error: true })
+      }
+    } else {
+      notificationStore.set({ ...notif, enabled: false })
+      setStatus({ text: 'Pengingat tugas dinonaktifkan.' })
+    }
+  }
+
+  async function testNotif() {
+    const ok = await sendTestNotification()
+    if (ok) {
+      setStatus({ text: 'Notifikasi tes berhasil dikirim ke perangkat!' })
+    } else {
+      setStatus({ text: 'Gagal mengirim notifikasi tes. Pastikan izin notifikasi diizinkan.', error: true })
+    }
+  }
 
   async function download() {
     const blob = new Blob([await exportData()], { type: 'application/json' })
@@ -138,6 +186,40 @@ export default function Settings() {
                   onChange={(e) => semesterStore.set({ ...sem, end: e.target.value })}
                 />
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="card glass" aria-labelledby="st-notif">
+          <h2 className="card-title" id="st-notif">
+            Notifikasi
+          </h2>
+          <div className="setting">
+            <div>
+              <strong>Pengingat tugas</strong>
+              <p>
+                Kirim notifikasi ke perangkat 1–2 kali sehari saat ada tugas yang mendekati deadline atau belum
+                selesai, agar kamu tidak terlewat tanpa merasa terganggu.
+              </p>
+            </div>
+            <div className="setting-controls">
+              <button
+                type="button"
+                className={`btn ${notif.enabled ? 'btn-primary' : ''}`}
+                onClick={() => void toggleNotif()}
+              >
+                <Icon name="bell" size={18} />
+                {notif.enabled ? 'Aktif' : 'Nonaktif'}
+              </button>
+              {notif.enabled && (
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => void testNotif()}
+                >
+                  Tes notifikasi
+                </button>
+              )}
             </div>
           </div>
         </section>

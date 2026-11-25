@@ -1,7 +1,8 @@
-import { Suspense, useState, type CSSProperties } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { isDark, themeStore } from '../lib/theme'
 import { useStore } from '../lib/localStore'
+import { checkAndNotifyTasks } from '../lib/notifications'
 import { Icon, type IconName } from './Icon'
 
 interface NavItem {
@@ -53,18 +54,21 @@ function ThemeButton({ withLabel }: { withLabel?: boolean }) {
 export default function Layout() {
   const { pathname } = useLocation()
   const moreActive = secondary.some((i) => pathname.startsWith(i.to))
-  const [pressed, setPressed] = useState<number | null>(null)
 
-  // Posisi "lensa" kaca: tab aktif, atau tab yang sedang ditekan
+  // Posisi "lensa" kaca: ikut route saja
   const primaryIndex = primary.findIndex((i) => (i.to === '/' ? pathname === '/' : pathname.startsWith(i.to)))
   const activeIndex = primaryIndex >= 0 ? primaryIndex : moreActive ? primary.length : 0
-  const lensIndex = pressed ?? activeIndex
-  const press = (i: number) => ({
-    onPointerDown: () => setPressed(i),
-    onPointerUp: () => setPressed(null),
-    onPointerCancel: () => setPressed(null),
-    onPointerLeave: () => setPressed(null),
-  })
+  const lensIndex = activeIndex
+
+  useEffect(() => {
+    // Jalankan pengecekan tugas (maks 1-2 kali sehari) saat aplikasi aktif
+    void checkAndNotifyTasks()
+
+    // Cek ulang saat jendela tab kembali difokuskan
+    const onFocus = () => void checkAndNotifyTasks()
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [])
 
   return (
     <>
@@ -101,9 +105,7 @@ export default function Layout() {
             <ThemeButton />
           </header>
           <main id="main" className="main" tabIndex={-1}>
-            <Suspense fallback={null}>
-              <Outlet />
-            </Suspense>
+            <Outlet />
           </main>
         </div>
       </div>
@@ -112,11 +114,10 @@ export default function Layout() {
         className="bottomnav glass-strong"
         aria-label="Navigasi bawah"
         style={{ '--i': lensIndex } as CSSProperties}
-        data-pressed={pressed !== null || undefined}
       >
         <span className="bn-lens" aria-hidden="true" />
-        {primary.map((item, i) => (
-          <NavLink key={item.to} to={item.to} end={item.to === '/'} className="bn-link" {...press(i)}>
+        {primary.map((item) => (
+          <NavLink key={item.to} to={item.to} end={item.to === '/'} className="bn-link">
             <Icon name={item.icon} />
             {item.label}
           </NavLink>
@@ -125,7 +126,6 @@ export default function Layout() {
           type="button"
           className={`bn-link${moreActive ? ' is-active' : ''}`}
           popoverTarget="more-menu"
-          {...press(primary.length)}
         >
           <Icon name="more" />
           Lainnya

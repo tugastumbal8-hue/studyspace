@@ -104,13 +104,15 @@ textarea {
   transform: none;
 }
 
-/* Background dengan glow aksen tipis */
+/* Background dengan glow aksen tipis (animasi dimatikan) */
 .bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+  animation: none;
+  will-change: auto;
 }
 
 .bg::before {
@@ -123,26 +125,15 @@ textarea {
     radial-gradient(50% 50% at 50% 80%, var(--blob-3), transparent 70%);
   filter: blur(120px);
   opacity: light-dark(0.7, 0.5);
-  animation: drift 60s ease-in-out infinite alternate;
-  will-change: transform;
+  animation: none;
+  will-change: auto;
 }
 
-@keyframes drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(2%, 3%, 0);
-  }
-}
-
-/* Kaca: iOS liquid glass (sheen + highlight + blur + saturate) */
+/* Kaca: Maksimal 3 elemen berblur di layar (header, tab bar, dialog) */
 .glass,
 .glass-strong {
   border: 1px solid var(--glass-line);
   box-shadow: var(--shadow);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
   transition:
     background-color var(--duration) var(--ease),
     border-color var(--duration) var(--ease),
@@ -150,13 +141,24 @@ textarea {
 }
 
 .glass {
-  background: var(--glass-sheen), var(--glass);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: color-mix(in srgb, var(--solid) 82%, transparent);
   border-radius: var(--r-lg);
 }
 
 .glass-strong {
   background: var(--glass-sheen), var(--glass-strong);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
   border-radius: var(--r-lg);
+}
+
+@media (max-width: 720px) {
+  .glass-strong {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
 }
 
 /* Fallback solid background jika backdrop-filter tidak didukung */
