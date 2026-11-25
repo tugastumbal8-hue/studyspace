@@ -4,20 +4,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#eef1fb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0f1f" media="(prefers-color-scheme: dark)" />
-    <meta name="description" content="StudySpace: kelola tugas kuliah, deadline, jadwal, catatan, dan progres semester." />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <title>StudySpace</title>
-    <script>
-      try {
-        var t = localStorage.getItem('studyspace.theme')
-        if (t) t = JSON.parse(t)
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
-      } catch (e) {}
-    </script>
-  </head>
+    <meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14100e" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <title>Study Productivity</title>
+    <meta name="description" content="Tugas, jadwal, catatan, dan progres kuliah di satu tempat." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Study Productivity" />
+    <meta property="og:title" content="Study Productivity" />
+    <meta property="og:description" content="Tugas, jadwal, catatan, dan progres kuliah di satu tempat." />
+    <meta property="og:url" content="https://study-productivity-id.vercel.app/" />
+    <meta property="og:image" content="https://study-productivity-id.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Study Productivity" />
+    <meta name="twitter:description" content="Tugas, jadwal, catatan, dan progres kuliah di satu tempat." />
+    <meta name="twitter:image" content="https://study-productivity-id.vercel.app/og.png" />
+</head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
