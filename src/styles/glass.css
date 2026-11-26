@@ -1,19 +1,22 @@
 /* =====================================================
-   StudySpace: liquid glass hangat (oranye + kuning)
-   Kilau dan pantulan di semua permukaan, blur ringan.
+   Study Productivity: liquid glass hangat (oranye + kuning)
    ===================================================== */
 
-/* ---------- Kaca lebih tembus pandang + latar hangat ---------- */
+/* ---------- Palet kaca dan latar ---------- */
 :root {
-  --glass: light-dark(rgba(255, 253, 249, 0.42), rgba(60, 46, 38, 0.36));
-  --glass-strong: light-dark(rgba(255, 253, 249, 0.55), rgba(52, 40, 33, 0.5));
+  --bg: light-dark(#faf6f1, #0b0807);
+  --bg-subtle: light-dark(#f1eae0, #100c0a);
+  --solid: light-dark(#fffdf9, #161110);
 
-  --blob-1: light-dark(rgba(251, 124, 75, 0.38), rgba(251, 124, 75, 0.3));
-  --blob-2: light-dark(rgba(244, 183, 64, 0.4), rgba(244, 183, 64, 0.2));
-  --blob-3: light-dark(rgba(255, 150, 110, 0.35), rgba(200, 80, 50, 0.28));
+  --glass: light-dark(rgba(255, 253, 249, 0.42), rgba(44, 34, 29, 0.32));
+  --glass-strong: light-dark(rgba(255, 253, 249, 0.55), rgba(40, 31, 26, 0.46));
+
+  --blob-1: light-dark(rgba(251, 124, 75, 0.38), rgba(251, 124, 75, 0.22));
+  --blob-2: light-dark(rgba(244, 183, 64, 0.4), rgba(244, 183, 64, 0.12));
+  --blob-3: light-dark(rgba(255, 150, 110, 0.35), rgba(70, 120, 255, 0.16));
 }
 
-/* ---------- Latar: gradien statis (tanpa animasi, tanpa filter blur) ---------- */
+/* Latar: gradien statis (tanpa animasi dan tanpa filter blur = ringan) */
 .bg::before {
   animation: none;
   will-change: auto;
@@ -26,7 +29,7 @@
     radial-gradient(34% 30% at 10% 80%, var(--blob-1), transparent 70%);
 }
 
-/* ---------- Kartu: kilau diagonal, highlight tepi, bayangan dalam, blur ringan ---------- */
+/* ---------- Kartu: kilau, tepi terang, pinggiran biru-oranye, blur ringan ---------- */
 .glass,
 .glass-strong,
 .card,
@@ -38,11 +41,12 @@
     radial-gradient(120% 70% at 12% -10%, light-dark(rgba(255, 255, 255, 0.9), rgba(255, 235, 220, 0.2)), transparent 55%),
     linear-gradient(160deg, light-dark(rgba(255, 255, 255, 0.55), rgba(255, 235, 220, 0.1)), transparent 45%),
     var(--glass);
-  border: 1px solid light-dark(rgba(255, 255, 255, 0.95), rgba(255, 235, 220, 0.2));
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.2));
   box-shadow:
-    inset 0 1.5px 1px light-dark(rgba(255, 255, 255, 1), rgba(255, 235, 220, 0.4)),
-    inset 1px 0 1px light-dark(rgba(255, 255, 255, 0.6), rgba(255, 235, 220, 0.14)),
-    inset 0 -10px 18px -10px light-dark(rgba(194, 65, 12, 0.1), rgba(0, 0, 0, 0.35)),
+    inset 0 1.5px 1px light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)),
+    inset 2px 0 4px -2px rgba(110, 180, 255, 0.55),
+    inset -2px 0 4px -2px rgba(255, 140, 100, 0.5),
+    inset 0 -10px 18px -12px light-dark(rgba(194, 65, 12, 0.1), rgba(0, 0, 0, 0.45)),
     var(--shadow-lg);
   -webkit-backdrop-filter: blur(16px) saturate(170%);
   backdrop-filter: blur(16px) saturate(170%);
@@ -50,30 +54,31 @@
 
 .stat-card {
   box-shadow:
-    inset 0 1.5px 1px light-dark(rgba(255, 255, 255, 1), rgba(255, 235, 220, 0.4)),
+    inset 0 1.5px 1px light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)),
     inset 0 -8px 14px -8px light-dark(rgba(194, 65, 12, 0.08), rgba(0, 0, 0, 0.3)),
     var(--shadow-sm);
 }
 
-/* ---------- Bar dan menu: kilau yang sama, sedikit lebih pekat ---------- */
+/* ---------- Sidebar, header, dan menu "Lainnya" ---------- */
 .sidebar,
 .topbar,
-.bottomnav,
 .more-menu {
   background:
     radial-gradient(120% 90% at 10% -20%, light-dark(rgba(255, 255, 255, 0.9), rgba(255, 235, 220, 0.22)), transparent 55%),
     linear-gradient(160deg, light-dark(rgba(255, 255, 255, 0.5), rgba(255, 235, 220, 0.1)), transparent 50%),
     var(--glass-strong);
-  border: 1px solid light-dark(rgba(255, 255, 255, 0.95), rgba(255, 235, 220, 0.2));
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.2));
   box-shadow:
-    inset 0 1.5px 1px light-dark(rgba(255, 255, 255, 1), rgba(255, 235, 220, 0.45)),
+    inset 0 1.5px 1px light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)),
+    inset 2px 0 4px -2px rgba(110, 180, 255, 0.55),
+    inset -2px 0 4px -2px rgba(255, 140, 100, 0.5),
     inset 0 -8px 14px -8px light-dark(rgba(194, 65, 12, 0.1), rgba(0, 0, 0, 0.35)),
     var(--shadow-lg);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
   backdrop-filter: blur(16px) saturate(150%);
 }
 
-/* Dialog: dibuat lebih pekat agar form mudah dibaca */
+/* Dialog: lebih pekat agar form mudah dibaca */
 .dialog-card {
   background: color-mix(in srgb, var(--solid) 94%, transparent);
   border: 1px solid var(--glass-line);
@@ -96,7 +101,6 @@
   }
 
   .topbar,
-  .bottomnav,
   .more-menu {
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     backdrop-filter: blur(12px) saturate(140%);
@@ -113,7 +117,6 @@
   .notice,
   .sidebar,
   .topbar,
-  .bottomnav,
   .more-menu,
   .dialog-card {
     background: var(--solid);
@@ -130,7 +133,7 @@
   from { opacity: 0; }
 }
 
-/* ---------- Navigasi sidebar dan brand ---------- */
+/* ---------- Sidebar aktif, brand, dan elemen kecil ---------- */
 .nav-link[aria-current='page'] {
   background: var(--primary-subtle);
   border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
@@ -139,17 +142,20 @@
   font-weight: 600;
 }
 
-.brand-mark {
-  background: var(--primary);
-  color: var(--on-primary);
-  box-shadow: 0 2px 10px -2px var(--primary-glow);
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 9px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px -2px rgba(70, 40, 20, 0.35);
 }
 
 .bar > i {
   background: var(--primary);
 }
 
-/* ---------- Status berwarna: merah terlambat, kuning mendekati, hijau selesai ---------- */
+/* ---------- Status berwarna ---------- */
 .prio-high { --p: var(--danger); }
 .prio-mid  { --p: var(--warn); }
 .prio-low  { --p: var(--ok); }
@@ -176,58 +182,9 @@ h1, h2, h3 {
   letter-spacing: -0.02em;
 }
 
-/* ---------- Bottom nav HP: lens kaca + swipe horizontal ---------- */
-@media (max-width: 767px) {
-  .bottomnav {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    touch-action: pan-x;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .bottomnav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .bn-link {
-    flex: 0 0 max(64px, calc(100% / 5));
-    min-width: 64px;
-  }
-
-  .bn-link[aria-current='page'],
-  .bn-link.is-active {
-    background: transparent;
-    box-shadow: none;
-    color: var(--primary);
-  }
-
-  .bn-lens {
-    width: max(64px, calc((100% - 8px) / 5));
-    background:
-      linear-gradient(155deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.06) 55%),
-      light-dark(rgba(255, 255, 255, 0.45), rgba(255, 235, 220, 0.14));
-    border: 1px solid light-dark(rgba(255, 255, 255, 0.95), rgba(255, 235, 220, 0.3));
-    box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.8),
-      inset 3px 0 6px -2px rgba(255, 170, 120, 0.55),
-      inset -3px 0 6px -2px rgba(120, 190, 255, 0.4),
-      0 6px 14px -4px light-dark(rgba(70, 40, 20, 0.25), rgba(0, 0, 0, 0.5));
-    -webkit-backdrop-filter: blur(3px) saturate(180%);
-    backdrop-filter: blur(3px) saturate(180%);
-    transition: transform 0.28s cubic-bezier(0.3, 1.2, 0.5, 1);
-  }
-}
-
-@media (min-width: 768px) {
-  .bn-lens {
-    display: none;
-  }
-}
-
-/* ===== Pulihkan bentuk pill melayang dan posisi lens (HP) ===== */
+/* =====================================================
+   HP: header pill melayang + tab bar dengan lens kaca
+   ===================================================== */
 @media (max-width: 767px) {
   .topbar {
     top: calc(8px + env(safe-area-inset-top));
@@ -240,6 +197,7 @@ h1, h2, h3 {
     padding-top: var(--s-3);
   }
 
+  /* Pil padat: hitam (gelap) / oranye (terang), dengan lapisan kilap di atas */
   .bottomnav {
     position: fixed;
     inset: auto 12px calc(12px + env(safe-area-inset-bottom));
@@ -248,24 +206,158 @@ h1, h2, h3 {
     padding: 4px;
     border-radius: var(--r-full);
     isolation: isolate;
+    overflow: visible;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.06) 42%, transparent 52%),
+      light-dark(var(--primary), #0d0b0a);
+    border: 1px solid light-dark(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.25),
+      0 16px 32px -10px light-dark(rgba(120, 40, 10, 0.55), rgba(0, 0, 0, 0.7));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .bn-link {
     position: relative;
     z-index: 1;
+    flex: 1 1 0;
+    min-width: 0;
     border-radius: var(--r-full);
+    color: light-dark(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.5));
     -webkit-tap-highlight-color: transparent;
     transition: color 0.2s var(--ease);
   }
 
+  .bn-link[aria-current='page'],
+  .bn-link.is-active,
+  .bn-link.is-lit {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+  }
+
+  .bottomnav[data-drag] .bn-link[aria-current='page']:not(.is-lit),
+  .bottomnav[data-drag] .bn-link.is-active:not(.is-lit) {
+    color: light-dark(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.5));
+  }
+
+  .bn-link svg {
+    transition: transform 0.35s cubic-bezier(0.3, 1.25, 0.5, 1);
+  }
+
+  .bn-link[aria-current='page'] svg,
+  .bn-link.is-active svg,
+  .bn-link.is-lit svg {
+    transform: scale(1.14);
+  }
+
+  /* Lens kaca mengilap: lebih tinggi dari bar */
   .bn-lens {
     position: absolute;
-    z-index: 0;
-    top: 4px;
-    bottom: 4px;
-    left: 4px;
-    border-radius: var(--r-full);
+    z-index: 2;
+    top: -6px;
+    bottom: -6px;
+    left: -4px;
+    width: calc((100% - 8px) / 5 + 16px);
+    border-radius: 999px;
     pointer-events: none;
-    transform: translateX(calc(var(--i, 0) * 100%));
+    border: none;
+    transform: none;
+    translate: calc(var(--i, 0) * (100% - 16px)) 0;
+    scale: 1;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.06) 38%, transparent 58%, rgba(255, 255, 255, 0.14) 100%),
+      light-dark(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.06));
+    box-shadow:
+      inset 0 0 0 1.5px light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.45)),
+      inset 0 0 0 3px rgba(255, 255, 255, 0.08),
+      inset 0 9px 9px -6px rgba(255, 255, 255, 0.95),
+      inset 0 -9px 9px -6px rgba(255, 255, 255, 0.7),
+      inset 3px 0 5px -2px rgba(110, 180, 255, 0.7),
+      inset -3px 0 5px -2px rgba(255, 140, 100, 0.7),
+      inset 0 0 18px 3px light-dark(rgba(60, 15, 0, 0.3), rgba(0, 0, 0, 0.55)),
+      0 10px 20px -6px rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: brightness(1.2) saturate(1.35);
+    backdrop-filter: brightness(1.2) saturate(1.35);
+    will-change: translate, scale;
+    transition:
+      translate 0.35s cubic-bezier(0.3, 1.25, 0.5, 1),
+      scale 0.25s var(--ease),
+      box-shadow 0.25s var(--ease);
   }
+
+  .bn-lens::before {
+    content: '';
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    top: 3px;
+    height: 32%;
+    border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.03));
+  }
+
+  .bn-lens::after {
+    content: '';
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 3px;
+    height: 14%;
+    border-radius: 50%;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.5), transparent);
+  }
+
+  /* Saat ditekan dan digeser: lens membesar dan mengikuti jari */
+  .bottomnav[data-drag] .bn-lens {
+    translate: var(--x, 0px) 0;
+    scale: 1.12;
+    transition:
+      translate 0s,
+      scale 0.2s var(--ease),
+      box-shadow 0.2s var(--ease);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.95),
+      inset 0 0 0 3px rgba(255, 255, 255, 0.12),
+      inset 0 10px 10px -6px rgba(255, 255, 255, 1),
+      inset 0 -10px 10px -6px rgba(255, 255, 255, 0.8),
+      inset 4px 0 6px -2px rgba(110, 180, 255, 0.85),
+      inset -4px 0 6px -2px rgba(255, 140, 100, 0.85),
+      inset 0 0 22px 4px light-dark(rgba(60, 15, 0, 0.35), rgba(0, 0, 0, 0.6)),
+      0 14px 26px -6px rgba(0, 0, 0, 0.55);
+  }
+}
+
+@media (min-width: 768px) {
+  .bn-lens {
+    display: none;
+  }
+}
+
+/* Latar video */
+.bg-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gradien warna dimatikan saat video aktif, diganti lapisan agar teks terbaca */
+.bg:has(.bg-video)::before {
+  opacity: 0;
+}
+
+.bg:has(.bg-video)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: light-dark(rgba(250, 246, 241, 0.5), rgba(11, 8, 7, 0.55));
 }

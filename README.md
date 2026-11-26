@@ -1,4 +1,4 @@
-# StudySpace
+# Study Productivity
 
 Kelola tugas kuliah, deadline, jadwal, catatan, dan progres semester. Berjalan sepenuhnya di browser, data tersimpan di perangkat (IndexedDB), bisa di-install sebagai PWA dan dipakai offline.
 

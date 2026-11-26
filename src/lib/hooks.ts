@@ -11,7 +11,7 @@ export function useNow(intervalMs = 60_000) {
 
 export function usePageTitle(title: string) {
   useEffect(() => {
-    document.title = `${title} · StudySpace`
+    document.title = `${title} · Study Productivity`
   }, [title])
 }
 

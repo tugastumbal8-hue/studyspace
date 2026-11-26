@@ -1,3 +1,4 @@
+import BackgroundVideo from './BackgroundVideo'
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { isDark, themeStore } from '../lib/theme'
@@ -155,7 +156,9 @@ export default function Layout() {
       >
         Lewati ke konten
       </a>
-      <div className="bg" aria-hidden="true" />
+            <div className="bg" aria-hidden="true">
+        <BackgroundVideo />
+      </div>
       <div className="shell">
         <aside className="sidebar glass">
           <Brand />
